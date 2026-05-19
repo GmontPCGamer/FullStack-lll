@@ -1,0 +1,31 @@
+# Compiled class files y directorios de build Maven/Spring Boot
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Node modules del frontend
+node_modules/
+dist/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.classpath
+.project
+.settings/
+nbproject/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
