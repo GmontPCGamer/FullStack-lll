@@ -1,0 +1,49 @@
+REPOSITORIOS DEL PROYECTO - MUNICIPALIDAD VALLE DEL SOL
+Sistema de Gestión y Prevención de Incendios
+=========================================================
+
+REPOSITORIO PRINCIPAL
+─────────────────────
+URL: https://github.com/GmontPCGamer/FullStack-lll
+Descripción: Repositorio monorepo que contiene todos los componentes del proyecto:
+             frontend React, BFF, microservicios, e infraestructura. Incluye documentación
+             de patrones, plan de branching y análisis arquitectónico.
+
+COMPONENTES INDIVIDUALES (dentro del repositorio principal)
+────────────────────────────────────────────────────────────
+
+1. FRONTEND (React + Vite)
+   Ruta en repo: /valledelsol-frontend
+   URL directa: https://github.com/GmontPCGamer/FullStack-lll/tree/main/valledelsol-frontend
+   Descripción: Aplicación React que permite a la comunidad reportar focos de incendio
+                y visualizar alertas. Se comunica exclusivamente con el BFF.
+                Incluye package.json, src/, public/, README.md.
+
+2. BACKEND FOR FRONTEND (BFF)
+   Ruta en repo: /businessdomain/bff-web
+   URL directa: https://github.com/GmontPCGamer/FullStack-lll/tree/main/businessdomain/bff-web
+   Descripción: Componente Spring Boot WebFlux que centraliza las llamadas del frontend
+                hacia los microservicios. Implementa Circuit Breaker (Resilience4j)
+                para resiliencia ante fallos. Puerto: 8080.
+
+3. MICROSERVICIO - REPORTES
+   Ruta en repo: /businessdomain/reportes-ms
+   URL directa: https://github.com/GmontPCGamer/FullStack-lll/tree/main/businessdomain/reportes-ms
+   Descripción: Microservicio Spring Boot que gestiona los reportes ciudadanos de focos
+                de incendio. Implementa Repository Pattern con Spring Data JPA.
+                Base de datos H2 en memoria. Puerto: 8081.
+
+4. MICROSERVICIO - ALERTAS
+   Ruta en repo: /businessdomain/alertas-ms
+   URL directa: https://github.com/GmontPCGamer/FullStack-lll/tree/main/businessdomain/alertas-ms
+   Descripción: Microservicio Spring Boot que gestiona las alertas comunitarias emitidas
+                por la municipalidad. Implementa Factory Method Pattern (AlertaFactory)
+                y Repository Pattern. Puerto: 8082.
+
+DOCUMENTACIÓN
+─────────────
+- Análisis de Patrones: /analisis_patrones.md
+  https://github.com/GmontPCGamer/FullStack-lll/blob/main/analisis_patrones.md
+
+- Plan de Branching: /plan_de_branching.md
+  https://github.com/GmontPCGamer/FullStack-lll/blob/main/plan_de_branching.md
