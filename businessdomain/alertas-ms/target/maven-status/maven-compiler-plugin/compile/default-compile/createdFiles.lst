@@ -1,0 +1,8 @@
+com\valledelsol\alertas\factory\AlertaFactory.class
+com\valledelsol\alertas\factory\AlertaFactory$1.class
+com\valledelsol\alertas\controller\AlertaController.class
+com\valledelsol\alertas\repository\AlertaRepository.class
+com\valledelsol\alertas\factory\AlertaFactory$3.class
+com\valledelsol\alertas\entities\Alerta.class
+com\valledelsol\alertas\AlertasApplication.class
+com\valledelsol\alertas\factory\AlertaFactory$2.class
