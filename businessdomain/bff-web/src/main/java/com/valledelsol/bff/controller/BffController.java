@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/bff")
-@CrossOrigin(origins = "http://localhost:5173") // React default port
+@CrossOrigin(origins = "*")
 public class BffController {
 
     @Autowired
@@ -32,10 +32,11 @@ public class BffController {
     }
 
     @PostMapping("/reportes")
-    public Mono<ResponseEntity<String>> createReporte(@RequestBody Object reporte) {
+    public Mono<ResponseEntity<String>> createReporte(@RequestBody String reporte) {
         return webClientBuilder.build()
                 .post()
                 .uri(reportesUrl)
+                .header("Content-Type", "application/json")
                 .bodyValue(reporte)
                 .retrieve()
                 .toEntity(String.class);
@@ -47,6 +48,17 @@ public class BffController {
         return webClientBuilder.build()
                 .get()
                 .uri(alertasUrl)
+                .retrieve()
+                .toEntity(String.class);
+    }
+
+    @PostMapping("/alertas")
+    public Mono<ResponseEntity<String>> createAlerta(@RequestBody String alerta) {
+        return webClientBuilder.build()
+                .post()
+                .uri(alertasUrl)
+                .header("Content-Type", "application/json")
+                .bodyValue(alerta)
                 .retrieve()
                 .toEntity(String.class);
     }
