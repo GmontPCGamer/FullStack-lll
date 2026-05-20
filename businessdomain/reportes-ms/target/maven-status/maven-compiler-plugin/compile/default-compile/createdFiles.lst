@@ -1,0 +1,4 @@
+com\valledelsol\reportes\entities\Reporte.class
+com\valledelsol\reportes\repository\ReporteRepository.class
+com\valledelsol\reportes\controller\ReporteController.class
+com\valledelsol\reportes\ReportesApplication.class
