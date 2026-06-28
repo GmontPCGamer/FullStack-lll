@@ -1,0 +1,14 @@
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml ./
+COPY businessdomain/pom.xml businessdomain/
+COPY businessdomain/product/pom.xml businessdomain/product/
+COPY infraestructuredomain/pom.xml infraestructuredomain/
+RUN mvn dependency:go-offline -pl businessdomain/product -am -B || true
+COPY . .
+RUN mvn package -pl businessdomain/product -am -DskipTests -q
+
+FROM eclipse-temurin:17-jre
+COPY --from=builder /app/businessdomain/product/target/*.jar app.jar
+EXPOSE 8083
+ENTRYPOINT ["java", "-jar", "/app.jar"]
