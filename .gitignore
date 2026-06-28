@@ -1,31 +1,21 @@
-# Compiled class files y directorios de build Maven/Spring Boot
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-# Node modules del frontend
-node_modules/
-dist/
-
-# IDEs
-.idea/
-*.iml
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.classpath
-.project
-.settings/
-nbproject/
-
-# Logs
+*.class
+*.jar
+*.war
 *.log
-logs/
-
-# OS
+*.iml
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.bak
+node_modules/
 .DS_Store
 Thumbs.db
+body.json
+temp.json
+*.env
+hs_err_pid*
+replay_pid*
