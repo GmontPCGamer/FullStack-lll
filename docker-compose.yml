@@ -70,6 +70,26 @@ services:
     networks:
       - valledelsol-net
 
+  # ── Base de Datos MySQL ────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - valledelsol-net
+
   # ── Microservicios de Negocio ──────────────────────────────────────
   customer-ms:
     build:
@@ -79,10 +99,13 @@ services:
     ports:
       - "8085:8085"
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
       eureka-server:
         condition: service_started
+      mysql:
+        condition: service_healthy
     networks:
       - valledelsol-net
 
@@ -94,10 +117,13 @@ services:
     ports:
       - "8083:8083"
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
       eureka-server:
         condition: service_started
+      mysql:
+        condition: service_healthy
     networks:
       - valledelsol-net
 
@@ -109,10 +135,13 @@ services:
     ports:
       - "8081:8081"
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
       eureka-server:
         condition: service_started
+      mysql:
+        condition: service_healthy
     networks:
       - valledelsol-net
 
@@ -124,10 +153,13 @@ services:
     ports:
       - "8082:8082"
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
       eureka-server:
         condition: service_started
+      mysql:
+        condition: service_healthy
     networks:
       - valledelsol-net
 
@@ -161,3 +193,6 @@ services:
       - bff-web
     networks:
       - valledelsol-net
+
+volumes:
+  mysql_data:
