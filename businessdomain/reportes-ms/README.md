@@ -46,8 +46,8 @@ reportes-ms/
 | Propiedad | Valor |
 |---|---|
 | Puerto | `8081` |
-| Base de datos | H2 en memoria (`reportesdb`) |
-| Consola H2 | `http://localhost:8081/h2-console` |
+| Base de datos | H2 en memoria (local) / MySQL `reportesdb` (Docker) |
+| Consola H2 | `http://localhost:8081/h2-console` (solo perfil local) |
 
 ## Endpoints REST
 
@@ -104,3 +104,4 @@ Cobertura: **96.4%** (líneas). Incluye pruebas unitarias, de integración y del
 ```bash
 docker compose up -d reportes-ms
 ```
+> En Docker usa MySQL 8.0 automáticamente (perfil `docker`).

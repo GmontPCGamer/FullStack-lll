@@ -33,7 +33,7 @@ Arquitectura de microservicios para la **Municipalidad Valle del Sol**. Permite 
 |---|---|
 | Backend | Java 17, Spring Boot 4.x (Framework 7.x) |
 | Frontend | React 19, Vite 8, Axios |
-| Database | H2 en memoria |
+| Database | H2 en memoria (local) / MySQL 8.0 (Docker) |
 | Service Discovery | Netflix Eureka |
 | API Gateway | Spring Cloud Gateway |
 | Circuit Breaker | Resilience4j 2.2.0 |
@@ -105,11 +105,16 @@ docker compose ps
 | Spring Boot Admin | `http://localhost:8062` |
 | API Gateway | `http://localhost:8080` |
 | keycloak-adapter | `http://localhost:8088` |
+| MySQL | `localhost:3306` (root/root) |
 
-**Detener:**
+> Los microservicios usan el perfil `docker` activado automáticamente via `SPRING_PROFILES_ACTIVE=docker`.
+
+**Detener (los datos MySQL persisten):**
 
 ```bash
 docker compose down
+# Para eliminar también los datos de BD:
+docker compose down -v
 ```
 
 ---
@@ -289,6 +294,26 @@ Build optimizado con `mvn dependency:go-offline` para cachear dependencias.
 ---
 
 ## Notas Importantes
+
+### Base de datos
+
+Cada microservicio usa **dos perfiles de base de datos** intercambiables:
+
+| Perfil | Base de datos | Cuándo |
+|---|---|---|
+| `local` (default sin perfil) | **H2 en memoria** | Desarrollo local (`mvn spring-boot:run`) |
+| `docker` | **MySQL 8.0** + volumen persistente | Docker Compose |
+
+**H2 (local):** Sin instalación. Consolas en `/h2-console` (JDBC: `jdbc:h2:mem:<nombre-db>`, user: `sa`, pass: vacío).
+
+**MySQL (Docker):** Se levanta automáticamente con `docker compose up`. Datos persistentes entre reinicios vía volumen `mysql_data`.
+
+| Microservicio | Base MySQL | Puerto |
+|---|---|---|
+| reportes-ms | `reportesdb` | 8081 |
+| alertas-ms | `alertasdb` | 8082 |
+| customer-ms | `customerdb` | 8085 |
+| product-ms | `productdb` | 8083 |
 
 ### Perfil local vs Eureka
 
