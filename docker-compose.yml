@@ -90,6 +90,24 @@ services:
     networks:
       - valledelsol-net
 
+  # ── PHPMyAdmin (UI web para MySQL) ─────────────────────────────────
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    container_name: phpmyadmin
+    ports:
+      - "8086:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+      UPLOAD_LIMIT: 100M
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - valledelsol-net
+
   # ── Microservicios de Negocio ──────────────────────────────────────
   customer-ms:
     build:
