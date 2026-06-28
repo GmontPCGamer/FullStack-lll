@@ -31,8 +31,8 @@ product/
 | Propiedad | Valor |
 |---|---|
 | Puerto | `8083` |
-| Base de datos | H2 en memoria (`productdb`) |
-| Consola H2 | `http://localhost:8083/h2-console` |
+| Base de datos | H2 en memoria (local) / MySQL `productdb` (Docker) |
+| Consola H2 | `http://localhost:8083/h2-console` (solo perfil local) |
 
 ## Endpoints REST
 

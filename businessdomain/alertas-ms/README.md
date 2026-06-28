@@ -47,8 +47,8 @@ alertas-ms/
 | Propiedad | Valor |
 |---|---|
 | Puerto | `8082` |
-| Base de datos | H2 en memoria (`alertasdb`) |
-| Consola H2 | `http://localhost:8082/h2-console` |
+| Base de datos | H2 en memoria (local) / MySQL `alertasdb` (Docker) |
+| Consola H2 | `http://localhost:8082/h2-console` (solo perfil local) |
 
 ## Endpoints REST
 
@@ -107,3 +107,4 @@ Cobertura: **95.6%** (líneas). Incluye 5 pruebas del Factory Method.
 ```bash
 docker compose up -d alertas-ms
 ```
+> En Docker usa MySQL 8.0 automáticamente (perfil `docker`).

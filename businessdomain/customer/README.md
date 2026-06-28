@@ -38,8 +38,8 @@ customer/
 | Propiedad | Valor |
 |---|---|
 | Puerto | `8085` |
-| Base de datos | H2 en memoria (`customerdb`) |
-| Consola H2 | `http://localhost:8085/h2-console` |
+| Base de datos | H2 en memoria (local) / MySQL `customerdb` (Docker) |
+| Consola H2 | `http://localhost:8085/h2-console` (solo perfil local) |
 
 ## Endpoints REST
 
