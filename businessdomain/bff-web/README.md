@@ -41,7 +41,7 @@ bff-web/
 ## Configuración
 | Propiedad | Valor |
 |---|---|
-| Puerto | `8080` |
+| Puerto | `8084` |
 | reportes-ms URL | `http://localhost:8081/api/reportes` |
 | alertas-ms URL | `http://localhost:8082/api/alertas` |
 
@@ -73,13 +73,13 @@ bff-web/
 # Orden de inicio obligatorio:
 # 1. Iniciar reportes-ms  (puerto 8081)
 # 2. Iniciar alertas-ms   (puerto 8082)
-# 3. Iniciar bff-web      (puerto 8080)
+# 3. Iniciar bff-web      (puerto 8084)
 
 cd businessdomain/bff-web
 mvn clean install -DskipTests
 mvn spring-boot:run
 ```
-BFF disponible en: `http://localhost:8080`
+BFF disponible en: `http://localhost:8084`
 
 ## Monitorear Circuit Breaker
 ```

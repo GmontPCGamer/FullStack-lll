@@ -42,6 +42,7 @@ reportes-ms/
 | GET | `/api/reportes` | Lista todos los reportes |
 | POST | `/api/reportes` | Crea un nuevo reporte |
 | GET | `/api/reportes/{id}` | Obtiene un reporte por ID |
+| DELETE | `/api/reportes/{id}` | Elimina un reporte por ID |
 
 ### Ejemplo de Request (POST)
 ```json
