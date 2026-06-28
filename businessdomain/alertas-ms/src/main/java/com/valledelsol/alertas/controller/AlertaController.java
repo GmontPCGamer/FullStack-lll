@@ -3,6 +3,7 @@ package com.valledelsol.alertas.controller;
 import com.valledelsol.alertas.entities.Alerta;
 import com.valledelsol.alertas.factory.AlertaFactory;
 import com.valledelsol.alertas.repository.AlertaRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class AlertaController {
      * para garantizar valores correctos por defecto.
      */
     @PostMapping
-    public Alerta crear(@RequestBody Alerta alerta) {
+    public Alerta crear(@Valid @RequestBody Alerta alerta) {
         if (alerta.getNivelGravedad() == null || alerta.getNivelGravedad().isBlank()) {
             // Factory Method Pattern: seleccionamos la fábrica según el nivel
             AlertaFactory factory = AlertaFactory.deNivelMedio();

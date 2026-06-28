@@ -1,6 +1,7 @@
 package com.valledelsol.reportes.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -12,9 +13,15 @@ public class Reporte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "La latitud es obligatoria")
     private String ubicacionLatitud;
+
+    @NotBlank(message = "La longitud es obligatoria")
     private String ubicacionLongitud;
+
+    @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
+
     private String estado; // e.g., REPORTADO, EN_REVISION, CONTROLADO
     private LocalDateTime fechaReporte;
 

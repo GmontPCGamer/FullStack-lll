@@ -1,0 +1,14 @@
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml ./
+COPY businessdomain/pom.xml businessdomain/
+COPY infraestructuredomain/pom.xml infraestructuredomain/
+COPY infraestructuredomain/keycloakadapter/pom.xml infraestructuredomain/keycloakadapter/
+RUN mvn dependency:go-offline -pl infraestructuredomain/keycloakadapter -am -B || true
+COPY . .
+RUN mvn package -pl infraestructuredomain/keycloakadapter -am -DskipTests -q
+
+FROM eclipse-temurin:17-jre
+COPY --from=builder /app/infraestructuredomain/keycloakadapter/target/*.jar app.jar
+EXPOSE 8088
+ENTRYPOINT ["java", "-jar", "/app.jar"]
