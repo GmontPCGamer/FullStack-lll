@@ -143,4 +143,26 @@ class ReporteControllerTest {
         // Then
         assertEquals("REPORTADO", reporte.getEstado());
     }
+
+    @Test
+    @DisplayName("eliminar() debería retornar 204 cuando el reporte existe")
+    void testEliminar_Existe() {
+        when(reporteRepository.existsById(1L)).thenReturn(true);
+
+        ResponseEntity<Void> response = reporteController.eliminar(1L);
+
+        assertEquals(204, response.getStatusCode().value());
+        verify(reporteRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    @DisplayName("eliminar() debería retornar 404 cuando el reporte no existe")
+    void testEliminar_NoExiste() {
+        when(reporteRepository.existsById(99L)).thenReturn(false);
+
+        ResponseEntity<Void> response = reporteController.eliminar(99L);
+
+        assertEquals(404, response.getStatusCode().value());
+        verify(reporteRepository, never()).deleteById(any());
+    }
 }
