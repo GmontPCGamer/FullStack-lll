@@ -1,0 +1,14 @@
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml ./
+COPY businessdomain/pom.xml businessdomain/
+COPY infraestructuredomain/pom.xml infraestructuredomain/
+COPY infraestructuredomain/springBootAdmin/pom.xml infraestructuredomain/springBootAdmin/
+RUN mvn dependency:go-offline -pl infraestructuredomain/springBootAdmin -am -B || true
+COPY . .
+RUN mvn package -pl infraestructuredomain/springBootAdmin -am -DskipTests -q
+
+FROM eclipse-temurin:17-jre
+COPY --from=builder /app/infraestructuredomain/springBootAdmin/target/*.jar app.jar
+EXPOSE 8062
+ENTRYPOINT ["java", "-jar", "/app.jar"]

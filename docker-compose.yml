@@ -1,0 +1,163 @@
+version: "3.8"
+
+networks:
+  valledelsol-net:
+    driver: bridge
+
+services:
+  # ── Service Discovery ──────────────────────────────────────────────
+  eureka-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.eureka
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - valledelsol-net
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8761/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── Monitoreo ──────────────────────────────────────────────────────
+  spring-boot-admin:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.admin
+    container_name: spring-boot-admin
+    ports:
+      - "8062:8062"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  # ── API Gateway ────────────────────────────────────────────────────
+  api-gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  # ── Keycloak Adapter ───────────────────────────────────────────────
+  keycloak-adapter:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.keycloak
+    container_name: keycloak-adapter
+    ports:
+      - "8088:8088"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  # ── Microservicios de Negocio ──────────────────────────────────────
+  customer-ms:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.customer
+    container_name: customer-ms
+    ports:
+      - "8085:8085"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  product-ms:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.product
+    container_name: product-ms
+    ports:
+      - "8083:8083"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  reportes-ms:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.reportes
+    container_name: reportes-ms
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  alertas-ms:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.alertas
+    container_name: alertas-ms
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  # ── Backend For Frontend (BFF) ─────────────────────────────────────
+  bff-web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.bff
+    container_name: bff-web
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - reportes.service.url=http://reportes-ms:8081/api/reportes
+      - alertas.service.url=http://alertas-ms:8082/api/alertas
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - valledelsol-net
+
+  # ── Frontend React ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - bff-web
+    networks:
+      - valledelsol-net

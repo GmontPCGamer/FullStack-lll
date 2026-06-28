@@ -1,6 +1,7 @@
 package com.valledelsol.alertas.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -12,8 +13,12 @@ public class Alerta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El título es obligatorio")
     private String titulo;
+
+    @NotBlank(message = "El mensaje es obligatorio")
     private String mensaje;
+
     private String nivelGravedad; // ALTO, MEDIO, BAJO
     private LocalDateTime fechaEmision;
 

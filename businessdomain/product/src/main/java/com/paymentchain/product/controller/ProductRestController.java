@@ -51,7 +51,16 @@ public class ProductRestController {
     
     @PutMapping("/{id}")
     public ResponseEntity<?> put(@PathVariable("id") Long id, @RequestBody Product input) {
-        return null;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setCode(input.getCode());
+            product.setName(input.getName());
+            Product retorno = productRepository.save(product);
+            return new ResponseEntity<>(retorno, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     
     @PostMapping

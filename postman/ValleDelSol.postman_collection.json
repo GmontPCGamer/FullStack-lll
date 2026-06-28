@@ -1,0 +1,331 @@
+{
+  "info": {
+    "name": "Valle del Sol - Gestión de Incendios",
+    "description": "Colección de la Plataforma Inteligente de Prevención y Gestión de Incendios - Municipalidad Valle del Sol\n\n## Microservicios:\n- **BFF** (bff-web): Puerto 8084\n- **Reportes** (reportes-ms): Puerto 8081\n- **Alertas** (alertas-ms): Puerto 8082",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "bff_url",
+      "value": "http://localhost:8084/api/bff"
+    },
+    {
+      "key": "reportes_url",
+      "value": "http://localhost:8081/api/reportes"
+    },
+    {
+      "key": "alertas_url",
+      "value": "http://localhost:8082/api/alertas"
+    }
+  ],
+  "item": [
+    {
+      "name": "BFF (Backend For Frontend)",
+      "description": "Endpoints del BFF, punto único de entrada desde el frontend React",
+      "item": [
+        {
+          "name": "GET /api/bff/reportes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{bff_url}}/reportes",
+              "host": ["{{bff_url}}"],
+              "path": ["reportes"]
+            },
+            "description": "Obtiene todos los reportes de incendios a través del BFF"
+          }
+        },
+        {
+          "name": "POST /api/bff/reportes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ubicacionLatitud\": \"-33.4569\",\n  \"ubicacionLongitud\": \"-70.6483\",\n  \"descripcion\": \"Foco de incendio detectado en sector norte, aproximadamente 2 hectáreas\"\n}"
+            },
+            "url": {
+              "raw": "{{bff_url}}/reportes",
+              "host": ["{{bff_url}}"],
+              "path": ["reportes"]
+            },
+            "description": "Crea un nuevo reporte de incendio a través del BFF"
+          }
+        },
+        {
+          "name": "GET /api/bff/alertas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{bff_url}}/alertas",
+              "host": ["{{bff_url}}"],
+              "path": ["alertas"]
+            },
+            "description": "Obtiene todas las alertas a través del BFF"
+          }
+        },
+        {
+          "name": "POST /api/bff/alertas",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Riesgo de Incendio en Sector Norte\",\n  \"mensaje\": \"Se detectó humo en cercanías del parque. Evite el sector.\",\n  \"nivelGravedad\": \"ALTO\"\n}"
+            },
+            "url": {
+              "raw": "{{bff_url}}/alertas",
+              "host": ["{{bff_url}}"],
+              "path": ["alertas"]
+            },
+            "description": "Crea una nueva alerta a través del BFF"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reportes MS (reportes-ms)",
+      "description": "Endpoints directos del microservicio de reportes de incendios",
+      "item": [
+        {
+          "name": "GET /api/reportes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{reportes_url}}",
+              "host": ["{{reportes_url}}"]
+            },
+            "description": "Lista todos los reportes de incendios"
+          }
+        },
+        {
+          "name": "POST /api/reportes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ubicacionLatitud\": \"-33.4569\",\n  \"ubicacionLongitud\": \"-70.6483\",\n  \"descripcion\": \"Foco de incendio detectado en sector norte\"\n}"
+            },
+            "url": {
+              "raw": "{{reportes_url}}",
+              "host": ["{{reportes_url}}"]
+            },
+            "description": "Crea un nuevo reporte de incendio"
+          }
+        },
+        {
+          "name": "GET /api/reportes/{id}",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{reportes_url}}/1",
+              "host": ["{{reportes_url}}"],
+              "path": ["1"]
+            },
+            "description": "Obtiene un reporte por ID"
+          }
+        },
+        {
+          "name": "DELETE /api/reportes/{id}",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{reportes_url}}/1",
+              "host": ["{{reportes_url}}"],
+              "path": ["1"]
+            },
+            "description": "Elimina un reporte por ID"
+          }
+        },
+        {
+          "name": "POST /api/reportes (Validation Error - campos vacíos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ubicacionLatitud\": \"\",\n  \"ubicacionLongitud\": \"\",\n  \"descripcion\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{reportes_url}}",
+              "host": ["{{reportes_url}}"]
+            },
+            "description": "Test de validación: debe retornar 400 con errores de validación"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alertas MS (alertas-ms)",
+      "description": "Endpoints directos del microservicio de alertas comunitarias",
+      "item": [
+        {
+          "name": "GET /api/alertas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{alertas_url}}",
+              "host": ["{{alertas_url}}"]
+            },
+            "description": "Lista todas las alertas"
+          }
+        },
+        {
+          "name": "POST /api/alertas (nivel ALTO)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Riesgo de Incendio en Sector Norte\",\n  \"mensaje\": \"Evacúe de inmediato el sector indicado.\",\n  \"nivelGravedad\": \"ALTO\"\n}"
+            },
+            "url": {
+              "raw": "{{alertas_url}}",
+              "host": ["{{alertas_url}}"]
+            },
+            "description": "Crea una alerta con nivel de gravedad ALTO"
+          }
+        },
+        {
+          "name": "POST /api/alertas (nivel MEDIO - defecto)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Humo detectado en sector sur\",\n  \"mensaje\": \"Precaución en el sector. Manténgase informado.\"\n}"
+            },
+            "url": {
+              "raw": "{{alertas_url}}",
+              "host": ["{{alertas_url}}"]
+            },
+            "description": "Crea una alerta sin nivel de gravedad. El Factory Method asigna MEDIO por defecto."
+          }
+        },
+        {
+          "name": "POST /api/alertas (nivel BAJO)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Aviso preventivo\",\n  \"mensaje\": \"Vigilancia activa en la zona.\",\n  \"nivelGravedad\": \"BAJO\"\n}"
+            },
+            "url": {
+              "raw": "{{alertas_url}}",
+              "host": ["{{alertas_url}}"]
+            },
+            "description": "Crea una alerta con nivel de gravedad BAJO"
+          }
+        },
+        {
+          "name": "GET /api/alertas/{id}",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{alertas_url}}/1",
+              "host": ["{{alertas_url}}"],
+              "path": ["1"]
+            },
+            "description": "Obtiene una alerta por ID"
+          }
+        },
+        {
+          "name": "DELETE /api/alertas/{id}",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{alertas_url}}/1",
+              "host": ["{{alertas_url}}"],
+              "path": ["1"]
+            },
+            "description": "Elimina una alerta por ID"
+          }
+        },
+        {
+          "name": "POST /api/alertas (Validation Error - campos vacíos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"\",\n  \"mensaje\": \"\",\n  \"nivelGravedad\": \"MEDIO\"\n}"
+            },
+            "url": {
+              "raw": "{{alertas_url}}",
+              "host": ["{{alertas_url}}"]
+            },
+            "description": "Test de validación: debe retornar 400 con errores de validación"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Swagger / OpenAPI",
+      "description": "Endpoints de documentación Swagger UI",
+      "item": [
+        {
+          "name": "BFF Swagger UI",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8084/swagger-ui.html",
+              "host": ["http://localhost:8084"],
+              "path": ["swagger-ui.html"]
+            }
+          }
+        },
+        {
+          "name": "Reportes MS Swagger UI",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/swagger-ui.html",
+              "host": ["http://localhost:8081"],
+              "path": ["swagger-ui.html"]
+            }
+          }
+        },
+        {
+          "name": "Alertas MS Swagger UI",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/swagger-ui.html",
+              "host": ["http://localhost:8082"],
+              "path": ["swagger-ui.html"]
+            }
+          }
+        },
+        {
+          "name": "BFF OpenAPI JSON",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8084/v3/api-docs",
+              "host": ["http://localhost:8084"],
+              "path": ["v3", "api-docs"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
