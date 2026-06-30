@@ -6,7 +6,7 @@ COPY infraestructuredomain/pom.xml infraestructuredomain/
 COPY infraestructuredomain/keycloakadapter/pom.xml infraestructuredomain/keycloakadapter/
 RUN mvn dependency:go-offline -pl infraestructuredomain/keycloakadapter -am -B || true
 COPY . .
-RUN mvn package -pl infraestructuredomain/keycloakadapter -am -DskipTests -q
+RUN mvn package -pl infraestructuredomain/keycloakadapter -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/infraestructuredomain/keycloakadapter/target/*.jar app.jar

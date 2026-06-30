@@ -6,7 +6,7 @@ COPY infraestructuredomain/pom.xml infraestructuredomain/
 COPY infraestructuredomain/apigateway/pom.xml infraestructuredomain/apigateway/
 RUN mvn dependency:go-offline -pl infraestructuredomain/apigateway -am -B || true
 COPY . .
-RUN mvn package -pl infraestructuredomain/apigateway -am -DskipTests -q
+RUN mvn package -pl infraestructuredomain/apigateway -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/infraestructuredomain/apigateway/target/*.jar app.jar

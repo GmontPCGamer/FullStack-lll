@@ -8,7 +8,7 @@ COPY businessdomain/alertas-ms/pom.xml businessdomain/alertas-ms/
 COPY infraestructuredomain/pom.xml infraestructuredomain/
 RUN mvn dependency:go-offline -pl businessdomain/bff-web -am -B || true
 COPY . .
-RUN mvn package -pl businessdomain/bff-web -am -DskipTests -q
+RUN mvn package -pl businessdomain/bff-web -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/businessdomain/bff-web/target/*.jar app.jar
