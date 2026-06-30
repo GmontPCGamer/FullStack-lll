@@ -6,7 +6,7 @@ COPY infraestructuredomain/pom.xml infraestructuredomain/
 COPY infraestructuredomain/springBootAdmin/pom.xml infraestructuredomain/springBootAdmin/
 RUN mvn dependency:go-offline -pl infraestructuredomain/springBootAdmin -am -B || true
 COPY . .
-RUN mvn package -pl infraestructuredomain/springBootAdmin -am -DskipTests -q
+RUN mvn package -pl infraestructuredomain/springBootAdmin -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/infraestructuredomain/springBootAdmin/target/*.jar app.jar

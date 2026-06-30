@@ -7,7 +7,7 @@ COPY businessdomain/product/pom.xml businessdomain/product/
 COPY infraestructuredomain/pom.xml infraestructuredomain/
 RUN mvn dependency:go-offline -pl businessdomain/customer -am -B || true
 COPY . .
-RUN mvn package -pl businessdomain/customer -am -DskipTests -q
+RUN mvn package -pl businessdomain/customer -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/businessdomain/customer/target/*.jar app.jar

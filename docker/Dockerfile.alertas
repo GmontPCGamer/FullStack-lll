@@ -6,7 +6,7 @@ COPY businessdomain/alertas-ms/pom.xml businessdomain/alertas-ms/
 COPY infraestructuredomain/pom.xml infraestructuredomain/
 RUN mvn dependency:go-offline -pl businessdomain/alertas-ms -am -B || true
 COPY . .
-RUN mvn package -pl businessdomain/alertas-ms -am -DskipTests -q
+RUN mvn package -pl businessdomain/alertas-ms -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/businessdomain/alertas-ms/target/*.jar app.jar

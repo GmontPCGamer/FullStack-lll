@@ -6,7 +6,7 @@ COPY infraestructuredomain/pom.xml infraestructuredomain/
 COPY infraestructuredomain/eurekaServer/pom.xml infraestructuredomain/eurekaServer/
 RUN mvn dependency:go-offline -pl infraestructuredomain/eurekaServer -am -B || true
 COPY . .
-RUN mvn package -pl infraestructuredomain/eurekaServer -am -DskipTests -q
+RUN mvn package -pl infraestructuredomain/eurekaServer -am -Dmaven.test.skip=true -q
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder /app/infraestructuredomain/eurekaServer/target/*.jar app.jar
