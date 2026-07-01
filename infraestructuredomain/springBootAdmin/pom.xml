@@ -15,14 +15,14 @@
 	<description/>
 
 	<properties>
-		<spring-boot-admin.version>3.4.5</spring-boot-admin.version>
+		<spring-boot-admin.version>4.0.4</spring-boot-admin.version>
 	</properties>
 
 	<dependencies>
 		<!-- Spring Boot Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		<!-- Spring Boot Admin Server -->
 		<dependency>
